@@ -1,0 +1,28 @@
+# C++ Learning
+*base on cs106l spring 2023*
+***
+## Lec1.Basic Intro
+**重点：** ***what's cpp?***
+
+**Ans:** ***基本语法 + STL***
+
++ 基本语法：语句末的分号，原始的类型(int,double)，基本语法规则  
++ the STL：大量的功能， 内置的类(maps,vectors)，通过***std::***命名空间实现
+
+
+### Namespaces
++ 命名空间，许多功能都实现在***std::***中，靠它来引入
++ 通常会使用***using namespace std;***在开头，这样可以自动为*cin*,*cout*等增加*std::*前缀来使用，但**cs106l并不推荐这种写法**
+###STL
++ 全称**标准模板库(Standard Template Library)**，包含大量功能(算法，容器，函数，迭代器)
++ STL的命名空间为*std*，是standard的缩写
++ 要从STL访问元素（其实跟调用函数差不多）要用***std::***
+
+## Lec2.Types and Structs
+### Fundamental Types 基本类型
++ int, char, float, double, bool
++ std::string(#include <string\>)
+### C++是一种静态语言(*statically typed*)
++ 所有有名字的东西（函数，变量等）在运行前都会被赋予一个类型
++ 源码编译发生在程序运行前
++ 与之相反，动态语言(***dynamically typed***)如python会在运行时根据值来赋予其类型，
