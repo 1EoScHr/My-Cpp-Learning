@@ -7,16 +7,16 @@
 **Ans:** ***基本语法 + STL***
 
 + 基本语法：语句末的分号，原始的类型(int,double)，基本语法规则  
-+ the STL：大量的功能， 内置的类(maps,vectors)，通过***std::***命名空间实现
++ the STL：大量的功能， 内置的类(maps,vectors)，通过***std:: ***命名空间实现
 
 
 ### Namespaces
-+ 命名空间，许多功能都实现在***std::***中，靠它来引入
-+ 通常会使用***using namespace std;***在开头，这样可以自动为*cin*,*cout*等增加*std::*前缀来使用，但**cs106l并不推荐这种写法**
-###STL
++ 命名空间，许多功能都实现在***std:: ***中，靠它来引入
++ 通常会使用***using namespace std;***在开头，这样可以自动为*cin*,*cout*等增加*std:: *前缀来使用，但**cs106l并不推荐这种写法**
+### STL
 + 全称**标准模板库(Standard Template Library)**，包含大量功能(算法，容器，函数，迭代器)
 + STL的命名空间为*std*，是standard的缩写
-+ 要从STL访问元素（其实跟调用函数差不多）要用***std::***
++ 要从STL访问元素（其实跟调用函数差不多）要用***std:: ***
 
 ## Lec2.Types and Structs
 ### Fundamental Types 基本类型
@@ -27,51 +27,56 @@
 + 源码编译发生在程序运行前
 + 与之相反，动态语言(***dynamically typed***)如python会在运行时根据值来赋予其类型，逐行运行与编译，因此可能在运行中会遇到不可预知的错误
 + 所以静态类型能帮助**在程序运行前预防错误**
-###函数重载
+### 函数重载
 + 可以同名，但变量类型不能相等
-###struct：一种将不同的types捆绑在一起的方法
+### struct：一种将不同的types捆绑在一起的方法
 + 可以用struct传递一组数据，同样的，也可以使返回一组数据
 + 初始化方法：  
     1.定义后创建，创建后逐项初始化  
     2.定义后创建，直接{}大括号括起来，像数组那样初始化
-+ ***std::pair：***STL提供的模板，用于结合两个类型  
-> std::pair <type1, type2\> pairName = {data1, data2};  
++ ***std::pair ***：STL提供的模板，用于结合两个类型，前者通过*.first*引用，后者通过*.second*引用    
+
+
+    std::pair <type1, type2\> pairName = \{data1, data2\};  
 ----------引用STL库---------- | ----------------初始化---------------|  
 
-前者通过*.first*引用，后者通过*.second*引用  
-当返回**pair**时，若不想显式的定义出/懒得打字，可以使用
-> std::make_pair(field1, field2)  
+    当返回**pair**时，若不想显式的定义出/懒得打字，可以使用  
 
-来隐式的调用它了  
+    std::make_pair(field1, field2);  
+
+    来隐式的调用它了  
 
 ### auto：方便的自动推理type
 + 用来代替变量前的type，让编译器自己推导类型  
 + **不意味着变量没有类型**，只是简化
 + **适当**的使用能使代码变得**简洁**，**过度**的使用反而会**降低可读性甚至错误**。应该在前面或其他地方经过充分的定义才能使编译器推导出类型。
 
-##Lec3.Init & Reference 初始化与引用
-###初始化：为变量提供一个初始的值
+## Lec3.Init & Reference 初始化与引用
+### 初始化：为变量提供一个初始的值
 + 初始化可以有多种方式：  
     1.先创建变量，再赋予其值(*int a; a = 0;*)  
     2.创建变量的时候直接赋予其值(*int a= 0;*)  
-    3.拥有特殊初始化手段，譬如STL或函数(*std::pair<int, string\> a = std::make_pair(1, "a")*)  
-+ 最统一的初始化：**花括号{}**，无论什么类型都可以用花括号来进行初始化。**尽管**有时*普通括号()*与括号因特性会与*花括号{}*拥有相同的效果，**但是**在*std::vector<>*
-向量的初始化时，*{}*与*()*十分不同
->std::vector<int\> vec1(3, 5);  
->std::vector<int\> vec2{3, 5};  
+    3.拥有特殊初始化手段，譬如STL或函数(`*std::pair<int, string\> a = std::make_pair(1, "a")*`)  
++ 最统一的初始化：**花括号{}**，无论什么类型都可以用花括号来进行初始化。**尽管**有时*普通括号()*因特性会与*花括号{}*拥有相同的效果，**但是**在*std::vector<>*向量的初始化时，*{}*与*()*十分不同
 
-    其中，**vec1 = {5, 5, 5}**，**vec2 = {3, 5}**  
+    std::vector<int\> vec1(3, 5);  
+std::vector<int\> vec2{3, 5};  
+
+    其中，**vec1 =\{5, 5, 5\}**，**vec2 = \{3, 5\}**  
 
 ### 进阶技巧：基于auto与pair实现结构化绑定(Structured binding)
 + 以*pair*为例， 得到的pair在**初始化时**是有条理的：  
->auto p = std::make_pair("str", 1);  
+
+    auto p = std::make_pair("str", 1);  
 
     而在**赋予其他变量时**却只能一个一个的赋予，反而失去了条理：  
->string str = p.first;  
+
+    string str = p.first;  
 int num = p.second;  
 
     纵使pair本身有*.first*与*.second*的逻辑关系，但分两行写又使没有那么清晰，所以有这样的结构化绑定：  
->auto [str, num] = p;  
+
+    auto [str, num\] = p;  
 
     十分清晰了。  
 
@@ -109,6 +114,7 @@ int num = p.second;
 
 ### 引用：已经拥有的变量的别名
 + 引用不同与值传递与地址传递：
+
     1.值传递：原来的a->复制一份成为b->对b进行操作i->最后a没有变，b变了。  
     2.地址传递：原来的a->得出a的地址a'->对a'进行解地址操作->最后改变的还是a。  
     3.引用：原来的a->进行一个引用出b->实际上a与b就是一个东西。  
@@ -138,7 +144,8 @@ int num = p.second;
 + 左值可以在**等号=**的左边被赋值，也可以在等号右边赋予别的变量值。是一个有自己的**名字**的**非临时值**。譬如平时定义的变量。  
 + 右值是一个没有名字的临时量，只能在等号右边给别的值赋值。  
 比如：  
-> int x = 1;  
+
+    int x = 1;  
     
     其中x为左值，1为右值。  
 
@@ -155,13 +162,15 @@ int num = p.second;
 ### 进行赋值(=)操作时
 + 默认对右值进行一个**复制(copy)**，将**copy**赋予左值  
 + 因此即便写出这样的等式：
-> (假定有一个c_ref，是const；和一个n_ref)  
-> auto copy = ref;  
+
+    (假定有一个c_ref，是const；和一个n_ref)  
+auto copy = ref;  
 
     这样得到的copy**并不是const**，**也不是ref**！  
-> const auto c_copy = ref;//**const copy**  
-> auto& ref = n_ref;//**ref**  
-> const auto& ref = n_ref;//**const ref**  
+
+    const auto c_copy = ref;//**const copy**  
+auto& ref = n_ref;//**ref**  
+const auto& ref = n_ref;//**const ref**  
 
 + ***由此可知，在进行=操作时，无论右值拥有怎样的特性，赋值给左值后只是一个普通的值，要想让左值有特性(const,&)，必须要手动在式子前面添加。***  
 ### const 与 ref(&) 使用
@@ -170,4 +179,82 @@ int num = p.second;
 + 当是一个大变量时且不需要修改（比如huge vector或自定义的结构体）时，选择**const ref**  
 
 ### 返回值也可以是ref、const ref
-+ ～～没看懂～～
++ 没看懂......  
+
+## Lec4. Stream 输入、输出的抽象
+### stream的分类
+1.根据流的**方向**  
+
++ 输入流：用来**读取**数据，如*std::istream*, *std::cin*  
++ 输出流：用来**输出**数据，如*std::ostream*, *std::cout*  
++ 输入输出流： **读取**和**输出**均可，如*std::iostream*, *std::stringstream*  
+
+2.根据流的**来源**和**去向**  
+
++ 控制台(console)流：从**控制**台读取或输出到控制台。如*std::cout*, *std::cin*  
++ 文件(flie)流：从**文件**读取或输出到文件。如*std::fstream*, *std::ifstream*, *std::ofstream*  
++ 字符串(string)流：从**字符串**读取或输出到字符串。如*std::stringstream*, *std::istringstream*, *std::ostringstream*  
+
+### "<<" 与 "\>\>" 符号
++ **\>\>** 是**流提取运算符**，从流中提取数据并将其放入变量，通常用于读取  
++ **<<**是**流插入操作符**，将数据放入流中，通常用于输出  
+
+### 输出流 output stream
+#### **output streams**   
++ 类型：***std::ostream***  
++ 原理：通过**<<**运算符，将**数据**解析为**字符串**发送到**流**  
++ 例如，**std::cout**:  
+    + 将所有**原始数据类型**与大部分**STL work**输出到**控制台**流  
+    + 不同类型可以通过多个**<<**来输出  
+    + 无法输出**自定义数据类型(struct)**，在后面会自己实现  
+    + ***特点***：*std::cout*来自头文件<iostream\>中的一个**全局固定对象(global const object)**，所以可以直接使用而不用初始化出一个对象，因为它本身就是一个对象，而其他的输出流则不同，**必须要进行初始化**  
+#### output file streams
++ 类型：***std::ofstream***  
++ 原理类似，不过是输出到**文件流**  
++ 使用前需要**初始化**到一个**对象**。如下，初始化了一个名为out的对象，指向的文件为out.txt，后续使用out：   
+
+    std::ofstream out("out.txt");  
+    out << "This str will send to file" << std::endl;  
+
+### 输入流 input stream 的典型：std::cin
++ 类型：***std::istream***  
++ 原理：只能使用"**\>\>**"从**流**中接收**字符串**并将其转换成**数据**，这里*cin*是从控制台流  
++ 可以读取不同类型的数据，用多个">>"按顺序读取
++ 详细过程：调用 **std::cin \>\>** --\> **缓冲区(buffer)中是否有内容** --\> **若有，则按规则读取；若无，则在命令行创建一个新的命令提示符** --\> **用户输入，直到按下enter结束** --\> **读取，规则为：每个\>\>读取到witespace(space,tab,newline)为止** --\> **第一个whitespace后的所有内容会被保存到缓冲区，而whitespace会被吃掉**  
++ 读取原则：**如果**目标type为x，则读取时**一直**读到**非x或whitespace**为止，  
+所以int读str会直接读出0，同时将这个stream的fail位标记，这个流不再接受输入。
++ ***初始化？*** 和*cou*t相似，包含在头文件<iostream\>中，是一个**global const object**，所以可以直接用，因为它本身就是一个对象，不用再初始化；**但其他输入流就必须要初始化一个对象来，再使用这个对象而不是本身。**
+
+### std::getline()：用于读取字符序列（句子）
++ 函数原型：***std::getline(istream& is, string& str, char delim);*** //delim default = \n  
++ 工作原理：  
+    + 清除*str*中的内容，然后从*is*中提取字符放进*str*直到**结束条件**  
+（结束条件：到达文件结尾(**EOF**)、下一个字符是delim（会把delim提出来但不会保存）、str空间不足）  
++ ***getline***与***\>\>***对比：  
+    + *\>\>*读到**whitespace**就会停止，因而**不能读取句子**；而*getline*可以**在指定处结束**，所以可以**读取整个句子**  
+    + *\>\>*可以实现字符串到数据的转换(**string->primitive type**)；而*getline*只能读出字符串  
++ ***不要混合使用\>\>与getline！***  
+因为*\>\>*读到whitespace停止，whitespace**会留在**缓冲区，而*getline*读到delim停止，delim**不会留在**缓冲区  
+
+### input file stream
++ 类型：***std::ifstream***  
++ 原理：从文件流中提取字符串并转换为built-in-type  
++ 必须要进行**初始化**到一个**对象**。如下，初始化了一个名为in的对象，指向的文件为in.txt，后续使用in，会实现in.txt中的第一个单词写进了str：   
+
+    std::ifstream in("in.txt");  
+    std::string str;  
+    in \>\> str;  
+
+### stringstream 字符串流
++ 可以读写字符串对象的流，允许对字符串进行输入/输出操作  
++ 根据读写权限，可以根据要求，*std::stringstream*, *std::istringstream*, *std::ostringstream*  
++ 一个例子：  
+
+    std::string input = "114514";  
+std::stringstream stream(input);  
+int num;  
+stream \>\> num;  
+
+### 总结
++ 只有*cin、cout*本身就是一个对象，不必初始化，其余的都要先初始化。  
++ 在操作时，io要以程序为中心，从流中input，output到流中。
