@@ -428,3 +428,8 @@ stream \>\> num;
 ### pointer 
 C语言基础内容  
 
+### exercise
++ **第一次用完整的cpp语法！**  
++ 编译cpp时用**`g++ -o oname filename`**的基本形式(编译c时用`gcc`)  
++ 使用了**结构化绑定**的技巧  
+
